@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SYSTEM FAILURE - Игра для обучения ПК</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Переменные с точными HEX-значениями из RGB-кодов */
+        :root {
+            --color-dark-bg: #3F47CC; /* Тёмно-синий фон тела */
+            --color-section-bg: #6C72C8; /* Голубовато-синий фон секций */
+            --color-pink-accent: #BD39B4; /* Ярко-розовый акцент */
+            --color-text: #FFFFFF; /* Белый текст */
+        }
+
+        /* --- БАЗОВЫЕ СТИЛИ --- */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Press Start 2P', monospace;
+            background-color: var(--color-dark-bg);
+            color: var(--color-text);
+            line-height: 1.8;
+            padding-bottom: 50px;
+            font-size: 12px; 
+            scroll-behavior: smooth; 
+        }
+
+        /* Обводка текста для улучшения читаемости на фоне */
+        h1, h2, h3, p, a, button {
+            text-shadow: 
+                -1px -1px 0 #000,  
+                1px -1px 0 #000,
+                -1px 1px 0 #000,
+                1px 1px 0 #000;
+        }
+
+        /* --- КОНТЕЙНЕРЫ И HEADER --- */
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: var(--color-pink-accent); 
+            padding: 10px 0;
+            border-bottom: 5px solid var(--color-text); 
+        }
+
+        header .container {
+            display: flex; 
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header h1 {
+            font-size: 18px;
+            color: var(--color-text);
+            padding: 0; 
+            display: flex; 
+            align-items: center;
+        }
+
+        .logo-icon {
+            margin-right: 10px;
+            font-size: 24px;
+            line-height: 1;
+        }
+
+        .main-nav a {
+            color: var(--color-text);
+            text-decoration: none;
+            font-size: 10px;
+            margin-left: 20px;
+            padding: 5px 10px;
+            transition: background-color 0.1s;
+            border: 1px solid transparent;
+        }
+
+        .main-nav a:hover {
+            background-color: var(--color-dark-bg);
+            border-color: var(--color-text);
+        }
+        
+        /* --- СЕКЦИИ --- */
+        .section {
+            padding: 60px 0;
+            background-color: var(--color-section-bg);
+            margin-top: 30px;
+            border: 5px solid var(--color-text);
+            border-radius: 10px;
+            box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.5);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 16px;
+            color: var(--color-text);
+            text-decoration: underline;
+        }
+
+        /* --- КАРТОЧКИ ФУНКЦИЙ --- */
+        .features-grid {
+            display: flex;
+            justify-content: space-around;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .feature-card {
+            background-color: var(--color-dark-bg);
+            padding: 20px;
+            width: 300px;
+            border: 3px solid var(--color-text);
+            border-radius: 5px;
+            box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.5);
+        }
+
+        .feature-card h3 {
+            font-size: 14px;
+            margin-bottom: 15px;
+            color: var(--color-pink-accent);
+        }
+
+        .feature-card p {
+            font-size: 10px;
+        }
+        
+        /* --- РАЗДЕЛ РАЗРАБОТЧИКОВ (СТИЛИ ВОЗВРАЩЕНЫ, НО БЕЗ .developer-photo) --- */
+        .team-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .team-member {
+            background-color: var(--color-dark-bg);
+            padding: 20px;
+            width: 300px;
+            text-align: center;
+            border: 3px solid var(--color-text);
+            border-radius: 5px;
+            box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.5);
+        }
+
+        .team-member h3 {
+            font-size: 14px;
+            margin-bottom: 10px;
+            color: var(--color-pink-accent);
+        }
+
+        .team-member p {
+            font-size: 10px;
+        }
+        
+        /* --- БАННЕР (СЛАЙДЕР) --- */
+        .banner {
+            position: relative;
+            margin: 30px auto 0;
+            max-width: 1000px;
+            height: 500px;
+            overflow: hidden;
+            border: 5px solid var(--color-text);
+            border-radius: 10px;
+            box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.5);
+        }
+
+        .slider-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .slider-track {
+            display: flex;
+            height: 100%;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slide {
+            min-width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 30px;
+            font-weight: bold;
+            background-color: var(--color-dark-bg);
+        }
+
+        /* Стили кнопок навигации */
+        .slider-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: var(--color-text);
+            border: 2px solid var(--color-text);
+            padding: 10px;
+            cursor: pointer;
+            z-index: 10;
+            font-size: 18px;
+            font-family: 'Press Start 2P', monospace;
+            line-height: 1;
+        }
+
+        .prev { left: 10px; }
+        .next { right: 10px; }
+
+        /* --- ФУТЕР (КНОПКА СКАЧАТЬ) --- */
+        footer {
+            margin-top: 50px;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            background-color: var(--color-section-bg);
+            border: 5px solid var(--color-text);
+            border-radius: 10px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.5);
+        }
+
+        .download-text p {
+            margin-bottom: 20px;
+            font-size: 12px;
+        }
+
+        .download-button {
+            display: inline-flex;
+            align-items: center;
+            text-decoration: none;
+            background-color: var(--color-pink-accent);
+            color: var(--color-text);
+            padding: 15px 30px;
+            border: 3px solid var(--color-text);
+            border-radius: 5px;
+            font-size: 14px;
+            transition: background-color 0.2s, transform 0.1s;
+            box-shadow: 5px 5px 0px rgba(0, 0, 0, 0.5);
+        }
+
+        .download-button:hover {
+            background-color: #E052D6; 
+            transform: translate(-1px, -1px);
+            box-shadow: 6px 6px 0px rgba(0, 0, 0, 0.5);
+        }
+
+        .download-button .icon {
+            margin-right: 10px;
+        }
+        
+        /* СТИЛИ ДЛЯ КАРТИНОК БАННЕРА (Пути исправлены) */
+        .slide-1 {
+            background-image: url('banner_screen_1.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .slide-2 {
+            background-image: url('banner_screen_2.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .slide-3 {
+            background-image: url('banner_screen_3.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Медиа-запрос для адаптивности */
+        @media (max-width: 768px) {
+            body {
+                font-size: 10px;
+            }
+            .section {
+                padding: 30px 0;
+            }
+            .feature-card, .team-member {
+                width: 90%; /* Применяем и к карточкам команды */
+            }
+            .banner {
+                height: 300px;
+            }
+            .main-nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <h1>
+                <span class="logo-icon">💾</span> 
+                SYSTEM FAILURE
+            </h1>
+            <nav class="main-nav">
+                <a href="#about">О ПРОЕКТЕ</a>
+                <a href="#features">ФУНКЦИИ</a>
+                <a href="#developers">РАЗРАБОТЧИКИ</a> <a href="#download">СКАЧАТЬ</a>
+            </nav>
+        </div>
+    </header>
+    <div class="container">
+        
+        <section class="banner">
+            <div class="slider-container">
+                <div class="slider-track" id="sliderTrack">
+                    <div class="slide slide-1"></div>
+                    <div class="slide slide-2"></div>
+                    <div class="slide slide-3"></div>
+                </div>
+            </div>
+            <button class="slider-button prev">←</button>
+            <button class="slider-button next">→</button>
+        </section>
+
+        <section class="section about" id="about">
+            <h2 class="section-header">О ПРОЕКТЕ</h2>
+            <div class="container">
+                <p style="text-align: center; max-width: 800px; margin: 0 auto;">
+                    SYSTEM FAILURE — это уникальная обучающая игра в жанре RPG, разработанная для погружения в мир компьютерных технологий. 
+                    Путешествуйте по внутреннему устройству ПК, сражайтесь с вирусами, изучайте компоненты (CPU, GPU, RAM, SSD) 
+                    и осваивайте основы компьютерной грамотности в увлекательной форме. 
+                    Наш проект делает сложное понятным и интересным для всех возрастов.
+                </p>
+            </div>
+        </section>
+
+        <section class="section features" id="features">
+            <h2 class="section-header">КЛЮЧЕВЫЕ ФУНКЦИИ</h2>
+            <div class="container">
+                <div class="features-grid">
+                    <div class="feature-card">
+                        <h3>Образовательный Геймплей</h3>
+                        <p>Изучайте функции CPU, GPU и других компонентов, выполняя квесты и взаимодействуя с персонажами.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Сражения с Вирусами</h3>
+                        <p>Используйте навыки, полученные в ходе обучения, чтобы очистить систему от вредоносных программ и монстров.</p>
+                    </div>
+                    <div class="feature-card">
+                        <h3>Ретро-Атмосфера</h3>
+                        <p>Насладитесь стильной пиксельной графикой и музыкой, вдохновленной классическими RPG 90-х.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section developers" id="developers">
+            <h2 class="section-header">КОМАНДА РАЗРАБОТЧИКОВ</h2>
+            <div class="container">
+                <div class="team-grid">
+                    
+                    <div class="team-member">
+                        <h3>Дмитрий</h3>
+			<h3>@MiTyON</h3>
+                        <p>Роль: Программист</p>
+                    </div>
+                    
+                    <div class="team-member">
+                        <h3>Сергей</h3>
+			<h3>@Mak_bom_bom</h3>
+                        <p>Роль: Тестировщик</p>
+                    </div>
+                    
+                    <div class="team-member">
+                        <h3>Ильяс</h3>
+			<h3>@gmrd06</h3>
+                        <p>Роль: Программист</p>
+                    </div>
+                    
+                    <div class="team-member">
+                        <h3>Виктория</h3>
+			<h3>@vtimofeewa</h3>
+                        <p>Роль: Дизайнер</p>
+                    </div>
+
+                    <div class="team-member">
+                        <h3>Александра</h3>
+			<h3>@wkokw</h3>
+                        <p>Роль: Промо-менеджер</p>
+                    </div>
+                    
+                    <div class="team-member">
+                        <h3>Ксения</h3>
+			<h3>@ksnwxeq</h3>
+                        <p>Роль: Саунд-продюссер</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <footer id="download">
+        <div class="footer-content">
+            <div class="download-text">
+                <p>Готовы проникнуть в SYSTEM FAILURE?</p>
+                <p>Начните свое путешествие в мир компьютерных технологий через увлекательную игру</p>
+            </div>
+            <a href="systemfailure.7z" download class="download-button">
+               
+                <span class="text">СКАЧАТЬ</span>
+            </a>
+        </div>
+    </footer>
+    
+    <script>
+        const sliderTrack = document.getElementById('sliderTrack');
+        const slides = document.querySelectorAll('.slide');
+        const prevButton = document.querySelector('.prev');
+        const nextButton = document.querySelector('.next');
+        let currentIndex = 0;
+        const totalSlides = slides.length;
+
+        function updateSlider() {
+            const offset = -currentIndex * 100;
+            sliderTrack.style.transform = `translateX(${offset}%)`;
+        }
+
+        nextButton.addEventListener('click', () => {
+            currentIndex = (currentIndex + 1) % totalSlides;
+            updateSlider();
+        });
+
+        prevButton.addEventListener('click', () => {
+            currentIndex = (currentIndex - 1 + totalSlides) % totalSlides; 
+            updateSlider();
+        });
+
+        // Опционально: автоматическое переключение
+        setInterval(() => {
+             currentIndex = (currentIndex + 1) % totalSlides;
+             updateSlider();
+        }, 5000); // Переключать каждые 5 секунд
+
+    </script>
+</body>
+</html>
